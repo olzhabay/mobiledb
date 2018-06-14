@@ -410,6 +410,16 @@ class Benchmark {
     // Open database
     std::string tmp_dir;
     Env::Default()->GetTestDirectory(&tmp_dir);
+    struct stat sb;
+    int32_t res = stat(tmp_dir.data(), &sb);
+    if (0 == res && (sb.st_mode & S_IFDIR)){
+    } else {
+      int status = mkdir(tmp_dir.data(), S_IRWXU | S_IRWXG | S_IWOTH | S_IXOTH);
+      if(status != 0){
+        fprintf(stderr, "can't create directory %s\n", tmp_dir.data());
+        return;
+      }
+    }
     snprintf(file_name, sizeof(file_name),
              "%s/dbbench_sqlite3-%d.db",
              tmp_dir.c_str(),
