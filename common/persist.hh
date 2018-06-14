@@ -11,32 +11,28 @@
 #define CACHE_LINE_SIZE (64)
 #define PAGESIZE 512
 
+#define start_timer()    *((volatile uint32_t*)0xE0001000) = 0x40000001  // Enable CYCCNT register
+#define stop_timer()   *((volatile uint32_t*)0xE0001000) = 0x40000000  // Disable CYCCNT register
+#define get_timer()   *((volatile uint32_t*)0xE0001004)               // Get value from CYCCNT register
+
+
 static uint64_t WRITE_LATENCY_IN_NS = 500;
 
 static inline void cpu_pause() {
+#if defined(__ARM_ARCH)
+  asm volatile("" ::: "memory");
+#else
   __asm__ volatile ("pause" ::: "memory");
+#endif
 }
 
 static inline unsigned long read_tsc(void) {
 #if defined(__ARM_ARCH)
-#if (__ARM_ARCH >= 6)  // V6 is the earliest arch that has a standard cyclecount
-  uint32_t pmccntr;
-  uint32_t pmuseren;
-  uint32_t pmcntenset;
-  // Read the user mode perf monitor counter access permissions.
-  asm volatile("mrc p15, 0, %0, c9, c14, 0" : "=r"(pmuseren));
-  if (pmuseren & 1) {  // Allows reading perfmon counters for user mode code.
-    asm volatile("mrc p15, 0, %0, c9, c12, 1" : "=r"(pmcntenset));
-    if (pmcntenset & 0x80000000ul) {  // Is it counting?
-      asm volatile("mrc p15, 0, %0, c9, c13, 0" : "=r"(pmccntr));
-      // The counter is set up to count every 64th cycle
-      return static_cast<int64_t>(pmccntr) * 64;  // Should optimize to << 6
-    }
-  }
-#endif
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-  return static_cast<int64_t>(tv.tv_sec) * 1000000 + tv.tv_usec;
+  uint32_t it;
+  start_timer();
+  it = get_timer();
+  stop_timer();
+  return it;
 #else
   uint64_t low, high;
   __asm__ volatile("rdtsc" : "=a"(low), "=d"(high));

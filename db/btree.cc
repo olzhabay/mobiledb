@@ -1,5 +1,6 @@
 #include "btree.hh"
 #include "btree_iterator.hh"
+#include "../common/persist.hh"
 
 /*
  *  class btree
