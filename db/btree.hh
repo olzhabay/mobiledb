@@ -198,7 +198,7 @@ public:
 
   bool remove(Btree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
     if (!only_rebalance) {
-      register int num_entries_before = count();
+      int num_entries_before = count();
 
       // This node is root
       if (this == (Page*) bt->root) {
@@ -243,8 +243,8 @@ public:
       return true;
     }
 
-    register int num_entries = count();
-    register int left_num_entries = left_sibling->count();
+    int num_entries = count();
+    int left_num_entries = left_sibling->count();
 
     // Merge or Redistribution
     int total_num_entries = num_entries + left_num_entries;
@@ -254,7 +254,7 @@ public:
     entry_key_t parent_key;
 
     if (total_num_entries > cardinality - 1) { // Redistribution
-      register int m = (int) ceil(total_num_entries / 2);
+      int m = (int) ceil(total_num_entries / 2);
 
       if (num_entries < left_num_entries) { // left -> right
         if (hdr.leftmost_ptr == nullptr) {
@@ -473,7 +473,7 @@ public:
       }
     }
 
-    register int num_entries = count();
+    int num_entries = count();
 
     // FAST
     if (num_entries < cardinality - 1) {
@@ -483,7 +483,7 @@ public:
       // overflow
       // create a new node
       Page* sibling = new Page(hdr.level);
-      register int m = (int) ceil(num_entries / 2);
+      int m = (int) ceil(num_entries / 2);
       entry_key_t split_key = records[m].key;
 
       // migrate half of keys into the sibling

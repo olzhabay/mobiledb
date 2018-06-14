@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
+#include <atomic>
 
 #define CPU_FREQ_MHZ (994) // cat /proc/cpuinfo
 #define CACHE_LINE_SIZE (64)
@@ -17,61 +18,7 @@ static inline void cpu_pause() {
 }
 
 static inline unsigned long read_tsc(void) {
-
-#if defined(BENCHMARK_OS_MACOSX)
-  // this goes at the top because we need ALL Macs, regardless of
-  // architecture, to return the number of "mach time units" that
-  // have passed since startup.  See sysinfo.cc where
-  // InitializeSystemInfo() sets the supposed cpu clock frequency of
-  // macs to the number of mach time units per second, not actual
-  // CPU clock frequency (which can change in the face of CPU
-  // frequency scaling).  Also note that when the Mac sleeps, this
-  // counter pauses; it does not continue counting, nor does it
-  // reset to zero.
-  return mach_absolute_time();
-#elif defined(__i386__)
-  int64_t ret;
-  __asm__ volatile("rdtsc" : "=A"(ret));
-  return ret;
-#elif defined(__x86_64__) || defined(__amd64__)
-  uint64_t low, high;
-  __asm__ volatile("rdtsc" : "=a"(low), "=d"(high));
-  return (high << 32) | low;
-#elif defined(__powerpc__) || defined(__ppc__)
-  // This returns a time-base, which is not always precisely a cycle-count.
-  int64_t tbl, tbu0, tbu1;
-  asm("mftbu %0" : "=r"(tbu0));
-  asm("mftb  %0" : "=r"(tbl));
-  asm("mftbu %0" : "=r"(tbu1));
-  tbl &= -static_cast<int64>(tbu0 == tbu1);
-  // high 32 bits in tbu1; low 32 bits in tbl  (tbu0 is garbage)
-  return (tbu1 << 32) | tbl;
-#elif defined(__sparc__)
-  int64_t tick;
-  asm(".byte 0x83, 0x41, 0x00, 0x00");
-  asm("mov   %%g1, %0" : "=r"(tick));
-  return tick;
-#elif defined(__ia64__)
-  int64_t itc;
-  asm("mov %0 = ar.itc" : "=r"(itc));
-  return itc;
-#elif defined(COMPILER_MSVC) && defined(_M_IX86)
-  // Older MSVC compilers (like 7.x) don't seem to support the
-  // __rdtsc intrinsic properly, so I prefer to use _asm instead
-  // when I know it will work.  Otherwise, I'll use __rdtsc and hope
-  // the code is being compiled with a non-ancient compiler.
-  _asm rdtsc
-#elif defined(COMPILER_MSVC)
-  return __rdtsc();
-#elif defined(__aarch64__)
-  // System timer of ARMv8 runs at a different frequency than the CPU's.
-  // The frequency is fixed, typically in the range 1-50MHz.  It can be
-  // read at CNTFRQ special register.  We assume the OS has set up
-  // the virtual timer properly.
-  int64_t virtual_timer_value;
-  asm volatile("mrs %0, cntvct_el0" : "=r"(virtual_timer_value));
-  return virtual_timer_value;
-#elif defined(__ARM_ARCH)
+#if defined(__ARM_ARCH)
 #if (__ARM_ARCH >= 6)  // V6 is the earliest arch that has a standard cyclecount
   uint32_t pmccntr;
   uint32_t pmuseren;
@@ -90,31 +37,32 @@ static inline unsigned long read_tsc(void) {
   struct timeval tv;
   gettimeofday(&tv, nullptr);
   return static_cast<int64_t>(tv.tv_sec) * 1000000 + tv.tv_usec;
-#elif defined(__mips__)
-  // mips apparently only allows rdtsc for superusers, so we fall
-  // back to gettimeofday.  It's possible clock_gettime would be better.
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-  return static_cast<int64_t>(tv.tv_sec) * 1000000 + tv.tv_usec;
 #else
-// The soft failover to a generic implementation is automatic only for ARM.
-// For other platforms the developer is expected to make an attempt to create
-// a fast implementation and use generic version if nothing better is available.
-#error You need to define CycleTimer for your OS and CPU
+  uint64_t low, high;
+  __asm__ volatile("rdtsc" : "=a"(low), "=d"(high));
+  return (high << 32) | low;
 #endif
 }
 
 inline void mfence() {
+#if defined(__ARM_ARCH)
+  std::atomic_signal_fence(std::memory_order_release);
+#else
   asm volatile("mfence":::"memory");
+#endif
 }
 
 inline void clflush(char *data, size_t len) {
   if (data == NULL) return;
-  volatile char *ptr = (char *)((unsigned long)data &~(CACHE_LINE_SIZE-1));
+  char *ptr = (char *)((unsigned long)data &~(CACHE_LINE_SIZE-1));
   mfence();
   for (; ptr<data+len; ptr+=CACHE_LINE_SIZE) {
     unsigned long etsc = read_tsc() + (unsigned long)(WRITE_LATENCY_IN_NS*CPU_FREQ_MHZ/1000);
+#if defined(__ARM_ARCH)
+    __builtin___clear_cache(ptr, ptr+len);
+#else
     asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));
+#endif
     while (read_tsc() < etsc)
       cpu_pause();
   }
