@@ -1,0 +1,2652 @@
+Terminals unused in grammar
+
+   USERVAR
+   NOTEQUALS
+   LESSEQ
+   GREATEREQ
+   ASSIGN
+   OR
+   XOR
+   ANDOP
+   IN
+   IS
+   LIKE
+   REGEXP
+   BETWEEN
+   SHIFT
+   MOD
+   UMINUS
+   ADD
+   ALTER
+   ANALYZE
+   ANY
+   APPEND
+   ASC
+   BEFORE
+   BLOB
+   BOTH
+   CALL
+   CASCADE
+   CASE
+   CHANGE
+   CHECK
+   COLLATE
+   COLUMN
+   COMMENT
+   CONDITION
+   CONSTRAINT
+   CONTINUE
+   CONVERT
+   CROSS
+   CURRENT_DATE
+   CURRENT_TIME
+   CURRENT_TIMESTAMP
+   CURRENT_USER
+   CURSOR
+   DATABASE
+   DATABASES
+   DAY_HOUR
+   DAY
+   DAY_MICROSECOND
+   DAY_MINUTE
+   DAY_SECOND
+   DECLARE
+   DEFAULT
+   DELAYED
+   DESC
+   DESCRIBE
+   DETERMINISTIC
+   DIV
+   DUAL
+   EACH
+   ELSE
+   ELSEIF
+   ENCLOSED
+   ENUM
+   ESCAPED
+   EXIT
+   EXPLAIN
+   FETCH
+   FOR
+   FORCE
+   FOREIGN
+   FULLTEXT
+   GRANT
+   HAVING
+   HIGH
+   HIGH_PRIORITY
+   HOUR_MICROSECOND
+   HOUR_MINUTE
+   HOUR_SECOND
+   IGNORE
+   INDEX
+   INFILE
+   INOUT
+   INSENSITIVE
+   INTERVAL
+   ITERATE
+   KEYS
+   KILL
+   LEADING
+   LEAVE
+   LINES
+   LOAD
+   LOCALTIME
+   LOCALTIMESTAMP
+   LOCK
+   LONG
+   LONGBLOB
+   LONGTEXT
+   LOOP
+   LOW
+   LOW_PRIORITY
+   MATCH
+   MEDIUMBLOB
+   MEDIUMINT
+   MEDIUMTEXT
+   MINUTE_MICROSECOND
+   MINUTE_SECOND
+   MODIFIES
+   NATURAL
+   NO_WRITE_TO_BINLOG
+   NUMBER
+   OPTIMIZE
+   OPTION
+   OPTIONALLY
+   OUT
+   OUTER
+   OUTFILE
+   PARTITIONED
+   PRECISION
+   PRIORITY
+   PROCEDURE
+   PROJECTION
+   PURGE
+   QUICK
+   QUARTER
+   READ
+   READS
+   REFERENCES
+   RELEASE
+   RENAME
+   REPEAT
+   REPLACE
+   REQUIRE
+   RESTRICT
+   RETURN
+   REVOKE
+   ROLLUP
+   SAMPLE
+   SCHEMA
+   SCHEMAS
+   SECOND_MICROSECOND
+   SENSITIVE
+   SEPARATOR
+   SHOW
+   SMALLINT
+   SOME
+   SONAME
+   SPATIAL
+   SPECIFIC
+   SQL
+   SQLEXCEPTION
+   SQLSTATE
+   SQLWARNING
+   BIG_RESULT
+   CALC_FOUND_ROWS
+   SMALL_RESULT
+   SSL
+   STARTING
+   STRAIGHT_JOIN
+   TEMPORARY
+   TERMINATED
+   THEN
+   TINYBLOB
+   TINYINT
+   TINYTEXT
+   TO
+   TRAILING
+   TRIGGER
+   UNDO
+   UNION
+   UNLOCK
+   UNSIGNED
+   USAGE
+   USE
+   USING
+   UTC_DATE
+   UTC_TIME
+   UTC_TIMESTAMP
+   VARBINARY
+   VARYING
+   WHEN
+   WHILE
+   WITH
+   WRITE
+   YEAR_MONTH
+   ZEROFILL
+   WEEK
+   DO
+   MAX_QUERIES_PER_HOUR
+   MAX_UPDATES_PER_HOUR
+   MAX_CONNECTIONS_PER_HOUR
+   MAX_USER_CONNECTIONS
+   USER
+   TRUNCATE
+   FAST
+   MEDIUM
+   EXTENDED
+   CHANGED
+   LEAVES
+   MASTER
+   QUERY
+   CACHE
+   SLAVE
+   BEGINT
+   COMMIT
+   START
+   TRANSACTION
+   NO
+   CHAIN
+   AUTOCOMMIT
+   SAVEPOINT
+   ROLLBACK
+   LOCAL
+   TABLES
+   ISOLATION
+   LEVEL
+   GLOBAL
+   SESSION
+   UNCOMMITTED
+   COMMITTED
+   REPEATABLE
+   SERIALIZABLE
+   IDENTIFIED
+   PASSWORD
+   PRIVILEGES
+   BACKUP
+   CHECKSUM
+   REPAIR
+   USE_FRM
+   RESTORE
+   CHARACTER
+   COLLATION
+   COLUMNS
+   ENGINE
+   LOGS
+   STATUS
+   STORAGE
+   ENGINES
+   ERRORS
+   GRANTS
+   INNODB
+   PROCESSLIST
+   TRIGGERS
+   VARIABLES
+   WARNINGS
+   FLUSH
+   HOSTS
+   DES_KEY_FILE
+   USER_RESOURCES
+   CONNECTION
+   RESET
+   PREPARE
+   DEALLOCATE
+   EXECUTE
+   WORK
+   BTREE
+   HASH
+   BDB
+   OPEN
+   FSUBSTRING
+   FTRIM
+   FDATE_ADD
+   FDATE_SUB
+   FCOUNT
+   FUPPER
+   FCAST
+   FCOALESCE
+   FCONVERT
+   FSUM
+   FAVG
+   FMIN
+   FMAX
+
+
+State 1 conflicts: 1 shift/reduce
+State 40 conflicts: 1 shift/reduce
+State 41 conflicts: 1 shift/reduce
+State 61 conflicts: 1 shift/reduce
+State 82 conflicts: 1 shift/reduce
+State 83 conflicts: 1 shift/reduce
+State 84 conflicts: 5 shift/reduce, 1 reduce/reduce
+State 97 conflicts: 2 shift/reduce
+State 98 conflicts: 4 shift/reduce, 1 reduce/reduce
+State 127 conflicts: 1 shift/reduce
+State 137 conflicts: 1 shift/reduce
+State 139 conflicts: 1 shift/reduce
+State 163 conflicts: 4 shift/reduce, 1 reduce/reduce
+State 165 conflicts: 1 shift/reduce
+State 173 conflicts: 1 shift/reduce
+State 177 conflicts: 1 shift/reduce
+State 179 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: input "end of file"
+
+    1 input: stmt_list
+
+    2 stmt_list: stmt SEMICOLON
+    3          | stmt_list stmt SEMICOLON
+
+    4 expr_data: NAME
+    5          | NAME DOT NAME
+    6          | STRING
+    7          | INTNUM
+    8          | APPROXNUM
+    9          | BOOL
+
+   10 expr: expr_data COMPARISON expr_data
+
+   11 expr_list: expr
+   12          | expr AND expr_list
+   13          | BRACKET_O expr_list BRACKET_C
+
+   14 expr_pair: expr_data COMPARISON expr_data
+
+   15 pair_list: expr_pair
+   16          | expr_pair AND pair_list
+   17          | BRACKET_O pair_list BRACKET_C
+
+   18 stmt: select_stmt
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references opt_where opt_groupby opt_orderby opt_limit
+   20            | BRACKET_O select_stmt BRACKET_C
+
+   21 select_opts: %empty
+   22            | MULTIPLY
+   23            | ALL
+   24            | DISTINCT
+   25            | DISTINCTROW
+
+   26 stmt: join_table
+
+   27 join_table: table_factor join_opts JOIN table_factor join_condition
+   28           | BRACKET_O join_table BRACKET_C
+
+   29 join_condition: ON expr_list
+   30               | %empty
+
+   31 join_opts: FULL
+   32          | LEFT
+   33          | RIGHT
+   34          | INNER
+   35          | %empty
+
+   36 stmt: delete_stmt
+
+   37 delete_stmt: DELETE string_list FROM NAME opt_where opt_orderby opt_limit
+
+   38 stmt: insert_stmt
+
+   39 insert_stmt: INSERT opt_into NAME string_list VALUES string_list opt_ondupupdate
+   40            | INSERT opt_into NAME SET pair_list opt_ondupupdate
+   41            | INSERT opt_into NAME string_list select_stmt opt_ondupupdate
+
+   42 stmt: update_stmt
+
+   43 update_stmt: UPDATE NAME SET pair_list opt_where opt_orderby opt_limit
+
+   44 stmt: create_stmt
+
+   45 create_stmt: CREATE TABLE opt_if_not_exists NAME create_col_list
+
+   46 create_col_list: %empty
+   47                | create_definition
+   48                | create_col_list AND create_definition
+   49                | BRACKET_O create_col_list BRACKET_C
+
+   50 create_definition: NAME data_type column_atts
+
+   51 stmt: drop_stmt
+
+   52 drop_stmt: DROP TABLE NAME
+
+   53 string_list: %empty
+   54            | expr_data
+   55            | string_list AND expr_data
+   56            | BRACKET_O string_list BRACKET_C
+
+   57 column_atts: %empty
+   58            | NOT NULLX
+   59            | NULLX
+   60            | AUTO_INCREMENT
+   61            | UNIQUE KEY
+   62            | PRIMARY KEY
+   63            | KEY
+
+   64 data_type: BIT
+   65          | INT
+   66          | INTEGER
+   67          | BIGINT
+   68          | REAL
+   69          | DOUBLE
+   70          | FLOAT
+   71          | DECIMAL
+   72          | DATE
+   73          | TIME
+   74          | TIMESTAMP
+   75          | DATETIME
+   76          | YEAR
+   77          | CHAR
+   78          | VARCHAR
+   79          | BINARY
+   80          | TEXT
+
+   81 opt_as_alias: AS NAME
+   82             | %empty
+
+   83 opt_if_not_exists: %empty
+   84                  | IF NOT EXISTS
+
+   85 opt_into: INTO
+   86         | %empty
+
+   87 opt_ondupupdate: %empty
+   88                | ON DUPLICATE KEY UPDATE pair_list
+
+   89 opt_where: %empty
+   90          | WHERE expr_list
+
+   91 opt_groupby: %empty
+   92            | GROUP BY string_list
+
+   93 opt_orderby: %empty
+   94            | ORDER BY string_list
+
+   95 opt_limit: %empty
+   96          | LIMIT INTNUM
+
+   97 table_references: table_factor
+   98                 | table_references AND table_factor
+   99                 | BRACKET_O table_references BRACKET_C
+
+  100 table_factor: NAME opt_as_alias
+  101             | join_table opt_as_alias
+  102             | select_stmt opt_as_alias
+  103             | BRACKET_O table_factor BRACKET_C
+
+
+Terminals, with rules where they appear
+
+"end of file" (0) 0
+error (256)
+STRING (258) 6
+USERVAR (259)
+NAME (260) 4 5 37 39 40 41 43 45 50 52 81 100
+INTNUM (261) 7 96
+BOOL (262) 9
+APPROXNUM (263) 8
+NOTEQUALS (264)
+LESSEQ (265)
+GREATEREQ (266)
+ASSIGN (267)
+OR (268)
+XOR (269)
+ANDOP (270)
+IN (271)
+IS (272)
+LIKE (273)
+REGEXP (274)
+NOT (275) 58 84
+BETWEEN (276)
+COMPARISON (277) 10 14
+SHIFT (278)
+MOD (279)
+UMINUS (280)
+ADD (281)
+ALL (282) 23
+ALTER (283)
+ANALYZE (284)
+AND (285) 12 16 48 55 98
+ANY (286)
+APPEND (287)
+AS (288) 81
+ASC (289)
+AUTO_INCREMENT (290) 60
+BEFORE (291)
+BIGINT (292) 67
+BINARY (293) 79
+BIT (294) 64
+BLOB (295)
+BOTH (296)
+BY (297) 92 94
+CALL (298)
+CASCADE (299)
+CASE (300)
+CHANGE (301)
+CHAR (302) 77
+CHECK (303)
+COLLATE (304)
+COLUMN (305)
+COMMENT (306)
+CONDITION (307)
+CONSTRAINT (308)
+CONTINUE (309)
+CONVERT (310)
+CREATE (311) 45
+CROSS (312)
+CURRENT_DATE (313)
+CURRENT_TIME (314)
+CURRENT_TIMESTAMP (315)
+CURRENT_USER (316)
+CURSOR (317)
+DATABASE (318)
+DATABASES (319)
+DATE (320) 72
+DATETIME (321) 75
+DAY_HOUR (322)
+DAY (323)
+DAY_MICROSECOND (324)
+DAY_MINUTE (325)
+DAY_SECOND (326)
+DECIMAL (327) 71
+DECLARE (328)
+DEFAULT (329)
+DELAYED (330)
+DELETE (331) 37
+DESC (332)
+DESCRIBE (333)
+DETERMINISTIC (334)
+DISTINCT (335) 24
+DISTINCTROW (336) 25
+DIV (337)
+DOUBLE (338) 69
+DROP (339) 52
+DUAL (340)
+EACH (341)
+ELSE (342)
+ELSEIF (343)
+ENCLOSED (344)
+ENUM (345)
+ESCAPED (346)
+EXISTS (347) 84
+EXIT (348)
+EXPLAIN (349)
+FETCH (350)
+FLOAT (351) 70
+FOR (352)
+FORCE (353)
+FOREIGN (354)
+FROM (355) 19 37
+FULLTEXT (356)
+GRANT (357)
+GROUP (358) 92
+HAVING (359)
+HIGH (360)
+HIGH_PRIORITY (361)
+HOUR_MICROSECOND (362)
+HOUR_MINUTE (363)
+HOUR_SECOND (364)
+IF (365) 84
+IGNORE (366)
+INDEX (367)
+INFILE (368)
+INNER (369) 34
+INOUT (370)
+INSENSITIVE (371)
+INSERT (372) 39 40 41
+INT (373) 65
+INTEGER (374) 66
+INTERVAL (375)
+INTO (376) 85
+ITERATE (377)
+JOIN (378) 27
+KEY (379) 61 62 63 88
+KEYS (380)
+KILL (381)
+LEADING (382)
+LEAVE (383)
+LEFT (384) 32
+LIMIT (385) 96
+LINES (386)
+LOAD (387)
+LOCALTIME (388)
+LOCALTIMESTAMP (389)
+LOCK (390)
+LONG (391)
+LONGBLOB (392)
+LONGTEXT (393)
+LOOP (394)
+LOW (395)
+LOW_PRIORITY (396)
+MATCH (397)
+MEDIUMBLOB (398)
+MEDIUMINT (399)
+MEDIUMTEXT (400)
+MINUTE_MICROSECOND (401)
+MINUTE_SECOND (402)
+MODIFIES (403)
+NATURAL (404)
+NO_WRITE_TO_BINLOG (405)
+NULLX (406) 58 59
+NUMBER (407)
+ON (408) 29 88
+DUPLICATE (409) 88
+OPTIMIZE (410)
+OPTION (411)
+OPTIONALLY (412)
+ORDER (413) 94
+OUT (414)
+OUTER (415)
+OUTFILE (416)
+PARTITIONED (417)
+PRECISION (418)
+PRIMARY (419) 62
+PRIORITY (420)
+PROCEDURE (421)
+PROJECTION (422)
+PURGE (423)
+QUICK (424)
+QUARTER (425)
+READ (426)
+READS (427)
+REAL (428) 68
+REFERENCES (429)
+RELEASE (430)
+RENAME (431)
+REPEAT (432)
+REPLACE (433)
+REQUIRE (434)
+RESTRICT (435)
+RETURN (436)
+REVOKE (437)
+RIGHT (438) 33
+ROLLUP (439)
+SAMPLE (440)
+SCHEMA (441)
+SCHEMAS (442)
+SECOND_MICROSECOND (443)
+SELECT (444) 19
+SENSITIVE (445)
+SEPARATOR (446)
+SET (447) 40 43
+SHOW (448)
+SMALLINT (449)
+SOME (450)
+SONAME (451)
+SPATIAL (452)
+SPECIFIC (453)
+SQL (454)
+SQLEXCEPTION (455)
+SQLSTATE (456)
+SQLWARNING (457)
+BIG_RESULT (458)
+CALC_FOUND_ROWS (459)
+SMALL_RESULT (460)
+SSL (461)
+STARTING (462)
+STRAIGHT_JOIN (463)
+TABLE (464) 45 52
+TEMPORARY (465)
+TEXT (466) 80
+TERMINATED (467)
+THEN (468)
+TIME (469) 73
+TIMESTAMP (470) 74
+TINYBLOB (471)
+TINYINT (472)
+TINYTEXT (473)
+TO (474)
+TRAILING (475)
+TRIGGER (476)
+UNDO (477)
+UNION (478)
+UNIQUE (479) 61
+UNLOCK (480)
+UNSIGNED (481)
+UPDATE (482) 43 88
+USAGE (483)
+USE (484)
+USING (485)
+UTC_DATE (486)
+UTC_TIME (487)
+UTC_TIMESTAMP (488)
+VALUES (489) 39
+VARBINARY (490)
+VARCHAR (491) 78
+VARYING (492)
+WHEN (493)
+WHERE (494) 90
+WHILE (495)
+WITH (496)
+WRITE (497)
+YEAR (498) 76
+YEAR_MONTH (499)
+ZEROFILL (500)
+WEEK (501)
+DO (502)
+MAX_QUERIES_PER_HOUR (503)
+MAX_UPDATES_PER_HOUR (504)
+MAX_CONNECTIONS_PER_HOUR (505)
+MAX_USER_CONNECTIONS (506)
+USER (507)
+TRUNCATE (508)
+FAST (509)
+MEDIUM (510)
+EXTENDED (511)
+CHANGED (512)
+LEAVES (513)
+MASTER (514)
+QUERY (515)
+CACHE (516)
+SLAVE (517)
+BEGINT (518)
+COMMIT (519)
+START (520)
+TRANSACTION (521)
+NO (522)
+CHAIN (523)
+AUTOCOMMIT (524)
+SAVEPOINT (525)
+ROLLBACK (526)
+LOCAL (527)
+TABLES (528)
+ISOLATION (529)
+LEVEL (530)
+GLOBAL (531)
+SESSION (532)
+UNCOMMITTED (533)
+COMMITTED (534)
+REPEATABLE (535)
+SERIALIZABLE (536)
+IDENTIFIED (537)
+PASSWORD (538)
+PRIVILEGES (539)
+BACKUP (540)
+CHECKSUM (541)
+REPAIR (542)
+USE_FRM (543)
+RESTORE (544)
+CHARACTER (545)
+COLLATION (546)
+COLUMNS (547)
+ENGINE (548)
+LOGS (549)
+STATUS (550)
+STORAGE (551)
+ENGINES (552)
+ERRORS (553)
+GRANTS (554)
+INNODB (555)
+PROCESSLIST (556)
+TRIGGERS (557)
+VARIABLES (558)
+WARNINGS (559)
+FLUSH (560)
+HOSTS (561)
+DES_KEY_FILE (562)
+USER_RESOURCES (563)
+CONNECTION (564)
+RESET (565)
+PREPARE (566)
+DEALLOCATE (567)
+EXECUTE (568)
+WORK (569)
+BTREE (570)
+HASH (571)
+BDB (572)
+OPEN (573)
+FULL (574) 31
+FSUBSTRING (575)
+FTRIM (576)
+FDATE_ADD (577)
+FDATE_SUB (578)
+FCOUNT (579)
+FUPPER (580)
+FCAST (581)
+FCOALESCE (582)
+FCONVERT (583)
+FSUM (584)
+FAVG (585)
+FMIN (586)
+FMAX (587)
+BRACKET_O (588) 13 17 20 28 49 56 99 103
+BRACKET_C (589) 13 17 20 28 49 56 99 103
+SEMICOLON (590) 2 3
+DOT (591) 5
+MULTIPLY (592) 22
+
+
+Nonterminals, with rules where they appear
+
+$accept (338)
+    on left: 0
+input (339)
+    on left: 1, on right: 0
+stmt_list (340)
+    on left: 2 3, on right: 1 3
+expr_data (341)
+    on left: 4 5 6 7 8 9, on right: 10 14 54 55
+expr (342)
+    on left: 10, on right: 11 12
+expr_list (343)
+    on left: 11 12 13, on right: 12 13 29 90
+expr_pair (344)
+    on left: 14, on right: 15 16
+pair_list (345)
+    on left: 15 16 17, on right: 16 17 40 43 88
+stmt (346)
+    on left: 18 26 36 38 42 44 51, on right: 2 3
+select_stmt (347)
+    on left: 19 20, on right: 18 20 41 102
+select_opts (348)
+    on left: 21 22 23 24 25, on right: 19
+join_table (349)
+    on left: 27 28, on right: 26 28 101
+join_condition (350)
+    on left: 29 30, on right: 27
+join_opts (351)
+    on left: 31 32 33 34 35, on right: 27
+delete_stmt (352)
+    on left: 37, on right: 36
+insert_stmt (353)
+    on left: 39 40 41, on right: 38
+update_stmt (354)
+    on left: 43, on right: 42
+create_stmt (355)
+    on left: 45, on right: 44
+create_col_list (356)
+    on left: 46 47 48 49, on right: 45 48 49
+create_definition (357)
+    on left: 50, on right: 47 48
+drop_stmt (358)
+    on left: 52, on right: 51
+string_list (359)
+    on left: 53 54 55 56, on right: 19 37 39 41 55 56 92 94
+column_atts (360)
+    on left: 57 58 59 60 61 62 63, on right: 50
+data_type (361)
+    on left: 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80, on right:
+    50
+opt_as_alias (362)
+    on left: 81 82, on right: 100 101 102
+opt_if_not_exists (363)
+    on left: 83 84, on right: 45
+opt_into (364)
+    on left: 85 86, on right: 39 40 41
+opt_ondupupdate (365)
+    on left: 87 88, on right: 39 40 41
+opt_where (366)
+    on left: 89 90, on right: 19 37 43
+opt_groupby (367)
+    on left: 91 92, on right: 19
+opt_orderby (368)
+    on left: 93 94, on right: 19 37 43
+opt_limit (369)
+    on left: 95 96, on right: 19 37 43
+table_references (370)
+    on left: 97 98 99, on right: 19 98 99
+table_factor (371)
+    on left: 100 101 102 103, on right: 27 97 98 103
+
+
+State 0
+
+    0 $accept: . input "end of file"
+
+    NAME       shift, and go to state 1
+    CREATE     shift, and go to state 2
+    DELETE     shift, and go to state 3
+    DROP       shift, and go to state 4
+    INSERT     shift, and go to state 5
+    SELECT     shift, and go to state 6
+    UPDATE     shift, and go to state 7
+    BRACKET_O  shift, and go to state 8
+
+    input         go to state 9
+    stmt_list     go to state 10
+    stmt          go to state 11
+    select_stmt   go to state 12
+    join_table    go to state 13
+    delete_stmt   go to state 14
+    insert_stmt   go to state 15
+    update_stmt   go to state 16
+    create_stmt   go to state 17
+    drop_stmt     go to state 18
+    table_factor  go to state 19
+
+
+State 1
+
+  100 table_factor: NAME . opt_as_alias
+
+    AS  shift, and go to state 20
+
+    AS        [reduce using rule 82 (opt_as_alias)]
+    $default  reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 21
+
+
+State 2
+
+   45 create_stmt: CREATE . TABLE opt_if_not_exists NAME create_col_list
+
+    TABLE  shift, and go to state 22
+
+
+State 3
+
+   37 delete_stmt: DELETE . string_list FROM NAME opt_where opt_orderby opt_limit
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 30
+
+
+State 4
+
+   52 drop_stmt: DROP . TABLE NAME
+
+    TABLE  shift, and go to state 31
+
+
+State 5
+
+   39 insert_stmt: INSERT . opt_into NAME string_list VALUES string_list opt_ondupupdate
+   40            | INSERT . opt_into NAME SET pair_list opt_ondupupdate
+   41            | INSERT . opt_into NAME string_list select_stmt opt_ondupupdate
+
+    INTO  shift, and go to state 32
+
+    $default  reduce using rule 86 (opt_into)
+
+    opt_into  go to state 33
+
+
+State 6
+
+   19 select_stmt: SELECT . select_opts string_list FROM table_references opt_where opt_groupby opt_orderby opt_limit
+
+    ALL          shift, and go to state 34
+    DISTINCT     shift, and go to state 35
+    DISTINCTROW  shift, and go to state 36
+    MULTIPLY     shift, and go to state 37
+
+    $default  reduce using rule 21 (select_opts)
+
+    select_opts  go to state 38
+
+
+State 7
+
+   43 update_stmt: UPDATE . NAME SET pair_list opt_where opt_orderby opt_limit
+
+    NAME  shift, and go to state 39
+
+
+State 8
+
+   20 select_stmt: BRACKET_O . select_stmt BRACKET_C
+   28 join_table: BRACKET_O . join_table BRACKET_C
+  103 table_factor: BRACKET_O . table_factor BRACKET_C
+
+    NAME       shift, and go to state 1
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 8
+
+    select_stmt   go to state 40
+    join_table    go to state 41
+    table_factor  go to state 42
+
+
+State 9
+
+    0 $accept: input . "end of file"
+
+    "end of file"  shift, and go to state 43
+
+
+State 10
+
+    1 input: stmt_list .
+    3 stmt_list: stmt_list . stmt SEMICOLON
+
+    NAME       shift, and go to state 1
+    CREATE     shift, and go to state 2
+    DELETE     shift, and go to state 3
+    DROP       shift, and go to state 4
+    INSERT     shift, and go to state 5
+    SELECT     shift, and go to state 6
+    UPDATE     shift, and go to state 7
+    BRACKET_O  shift, and go to state 8
+
+    $default  reduce using rule 1 (input)
+
+    stmt          go to state 44
+    select_stmt   go to state 12
+    join_table    go to state 13
+    delete_stmt   go to state 14
+    insert_stmt   go to state 15
+    update_stmt   go to state 16
+    create_stmt   go to state 17
+    drop_stmt     go to state 18
+    table_factor  go to state 19
+
+
+State 11
+
+    2 stmt_list: stmt . SEMICOLON
+
+    SEMICOLON  shift, and go to state 45
+
+
+State 12
+
+   18 stmt: select_stmt .
+  102 table_factor: select_stmt . opt_as_alias
+
+    AS  shift, and go to state 20
+
+    SEMICOLON  reduce using rule 18 (stmt)
+    $default   reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 46
+
+
+State 13
+
+   26 stmt: join_table .
+  101 table_factor: join_table . opt_as_alias
+
+    AS  shift, and go to state 20
+
+    SEMICOLON  reduce using rule 26 (stmt)
+    $default   reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 47
+
+
+State 14
+
+   36 stmt: delete_stmt .
+
+    $default  reduce using rule 36 (stmt)
+
+
+State 15
+
+   38 stmt: insert_stmt .
+
+    $default  reduce using rule 38 (stmt)
+
+
+State 16
+
+   42 stmt: update_stmt .
+
+    $default  reduce using rule 42 (stmt)
+
+
+State 17
+
+   44 stmt: create_stmt .
+
+    $default  reduce using rule 44 (stmt)
+
+
+State 18
+
+   51 stmt: drop_stmt .
+
+    $default  reduce using rule 51 (stmt)
+
+
+State 19
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+
+    INNER  shift, and go to state 48
+    LEFT   shift, and go to state 49
+    RIGHT  shift, and go to state 50
+    FULL   shift, and go to state 51
+
+    $default  reduce using rule 35 (join_opts)
+
+    join_opts  go to state 52
+
+
+State 20
+
+   81 opt_as_alias: AS . NAME
+
+    NAME  shift, and go to state 53
+
+
+State 21
+
+  100 table_factor: NAME opt_as_alias .
+
+    $default  reduce using rule 100 (table_factor)
+
+
+State 22
+
+   45 create_stmt: CREATE TABLE . opt_if_not_exists NAME create_col_list
+
+    IF  shift, and go to state 54
+
+    $default  reduce using rule 83 (opt_if_not_exists)
+
+    opt_if_not_exists  go to state 55
+
+
+State 23
+
+    6 expr_data: STRING .
+
+    $default  reduce using rule 6 (expr_data)
+
+
+State 24
+
+    4 expr_data: NAME .
+    5          | NAME . DOT NAME
+
+    DOT  shift, and go to state 56
+
+    $default  reduce using rule 4 (expr_data)
+
+
+State 25
+
+    7 expr_data: INTNUM .
+
+    $default  reduce using rule 7 (expr_data)
+
+
+State 26
+
+    9 expr_data: BOOL .
+
+    $default  reduce using rule 9 (expr_data)
+
+
+State 27
+
+    8 expr_data: APPROXNUM .
+
+    $default  reduce using rule 8 (expr_data)
+
+
+State 28
+
+   56 string_list: BRACKET_O . string_list BRACKET_C
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 57
+
+
+State 29
+
+   54 string_list: expr_data .
+
+    $default  reduce using rule 54 (string_list)
+
+
+State 30
+
+   37 delete_stmt: DELETE string_list . FROM NAME opt_where opt_orderby opt_limit
+   55 string_list: string_list . AND expr_data
+
+    AND   shift, and go to state 58
+    FROM  shift, and go to state 59
+
+
+State 31
+
+   52 drop_stmt: DROP TABLE . NAME
+
+    NAME  shift, and go to state 60
+
+
+State 32
+
+   85 opt_into: INTO .
+
+    $default  reduce using rule 85 (opt_into)
+
+
+State 33
+
+   39 insert_stmt: INSERT opt_into . NAME string_list VALUES string_list opt_ondupupdate
+   40            | INSERT opt_into . NAME SET pair_list opt_ondupupdate
+   41            | INSERT opt_into . NAME string_list select_stmt opt_ondupupdate
+
+    NAME  shift, and go to state 61
+
+
+State 34
+
+   23 select_opts: ALL .
+
+    $default  reduce using rule 23 (select_opts)
+
+
+State 35
+
+   24 select_opts: DISTINCT .
+
+    $default  reduce using rule 24 (select_opts)
+
+
+State 36
+
+   25 select_opts: DISTINCTROW .
+
+    $default  reduce using rule 25 (select_opts)
+
+
+State 37
+
+   22 select_opts: MULTIPLY .
+
+    $default  reduce using rule 22 (select_opts)
+
+
+State 38
+
+   19 select_stmt: SELECT select_opts . string_list FROM table_references opt_where opt_groupby opt_orderby opt_limit
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 62
+
+
+State 39
+
+   43 update_stmt: UPDATE NAME . SET pair_list opt_where opt_orderby opt_limit
+
+    SET  shift, and go to state 63
+
+
+State 40
+
+   20 select_stmt: BRACKET_O select_stmt . BRACKET_C
+  102 table_factor: select_stmt . opt_as_alias
+
+    AS         shift, and go to state 20
+    BRACKET_C  shift, and go to state 64
+
+    BRACKET_C  [reduce using rule 82 (opt_as_alias)]
+    $default   reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 46
+
+
+State 41
+
+   28 join_table: BRACKET_O join_table . BRACKET_C
+  101 table_factor: join_table . opt_as_alias
+
+    AS         shift, and go to state 20
+    BRACKET_C  shift, and go to state 65
+
+    BRACKET_C  [reduce using rule 82 (opt_as_alias)]
+    $default   reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 47
+
+
+State 42
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+  103 table_factor: BRACKET_O table_factor . BRACKET_C
+
+    INNER      shift, and go to state 48
+    LEFT       shift, and go to state 49
+    RIGHT      shift, and go to state 50
+    FULL       shift, and go to state 51
+    BRACKET_C  shift, and go to state 66
+
+    $default  reduce using rule 35 (join_opts)
+
+    join_opts  go to state 52
+
+
+State 43
+
+    0 $accept: input "end of file" .
+
+    $default  accept
+
+
+State 44
+
+    3 stmt_list: stmt_list stmt . SEMICOLON
+
+    SEMICOLON  shift, and go to state 67
+
+
+State 45
+
+    2 stmt_list: stmt SEMICOLON .
+
+    $default  reduce using rule 2 (stmt_list)
+
+
+State 46
+
+  102 table_factor: select_stmt opt_as_alias .
+
+    $default  reduce using rule 102 (table_factor)
+
+
+State 47
+
+  101 table_factor: join_table opt_as_alias .
+
+    $default  reduce using rule 101 (table_factor)
+
+
+State 48
+
+   34 join_opts: INNER .
+
+    $default  reduce using rule 34 (join_opts)
+
+
+State 49
+
+   32 join_opts: LEFT .
+
+    $default  reduce using rule 32 (join_opts)
+
+
+State 50
+
+   33 join_opts: RIGHT .
+
+    $default  reduce using rule 33 (join_opts)
+
+
+State 51
+
+   31 join_opts: FULL .
+
+    $default  reduce using rule 31 (join_opts)
+
+
+State 52
+
+   27 join_table: table_factor join_opts . JOIN table_factor join_condition
+
+    JOIN  shift, and go to state 68
+
+
+State 53
+
+   81 opt_as_alias: AS NAME .
+
+    $default  reduce using rule 81 (opt_as_alias)
+
+
+State 54
+
+   84 opt_if_not_exists: IF . NOT EXISTS
+
+    NOT  shift, and go to state 69
+
+
+State 55
+
+   45 create_stmt: CREATE TABLE opt_if_not_exists . NAME create_col_list
+
+    NAME  shift, and go to state 70
+
+
+State 56
+
+    5 expr_data: NAME DOT . NAME
+
+    NAME  shift, and go to state 71
+
+
+State 57
+
+   55 string_list: string_list . AND expr_data
+   56            | BRACKET_O string_list . BRACKET_C
+
+    AND        shift, and go to state 58
+    BRACKET_C  shift, and go to state 72
+
+
+State 58
+
+   55 string_list: string_list AND . expr_data
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+
+    expr_data  go to state 73
+
+
+State 59
+
+   37 delete_stmt: DELETE string_list FROM . NAME opt_where opt_orderby opt_limit
+
+    NAME  shift, and go to state 74
+
+
+State 60
+
+   52 drop_stmt: DROP TABLE NAME .
+
+    $default  reduce using rule 52 (drop_stmt)
+
+
+State 61
+
+   39 insert_stmt: INSERT opt_into NAME . string_list VALUES string_list opt_ondupupdate
+   40            | INSERT opt_into NAME . SET pair_list opt_ondupupdate
+   41            | INSERT opt_into NAME . string_list select_stmt opt_ondupupdate
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    SET        shift, and go to state 75
+    BRACKET_O  shift, and go to state 28
+
+    BRACKET_O  [reduce using rule 53 (string_list)]
+    $default   reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 76
+
+
+State 62
+
+   19 select_stmt: SELECT select_opts string_list . FROM table_references opt_where opt_groupby opt_orderby opt_limit
+   55 string_list: string_list . AND expr_data
+
+    AND   shift, and go to state 58
+    FROM  shift, and go to state 77
+
+
+State 63
+
+   43 update_stmt: UPDATE NAME SET . pair_list opt_where opt_orderby opt_limit
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 78
+
+    expr_data  go to state 79
+    expr_pair  go to state 80
+    pair_list  go to state 81
+
+
+State 64
+
+   20 select_stmt: BRACKET_O select_stmt BRACKET_C .
+
+    $default  reduce using rule 20 (select_stmt)
+
+
+State 65
+
+   28 join_table: BRACKET_O join_table BRACKET_C .
+
+    $default  reduce using rule 28 (join_table)
+
+
+State 66
+
+  103 table_factor: BRACKET_O table_factor BRACKET_C .
+
+    $default  reduce using rule 103 (table_factor)
+
+
+State 67
+
+    3 stmt_list: stmt_list stmt SEMICOLON .
+
+    $default  reduce using rule 3 (stmt_list)
+
+
+State 68
+
+   27 join_table: table_factor join_opts JOIN . table_factor join_condition
+
+    NAME       shift, and go to state 1
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 8
+
+    select_stmt   go to state 82
+    join_table    go to state 83
+    table_factor  go to state 84
+
+
+State 69
+
+   84 opt_if_not_exists: IF NOT . EXISTS
+
+    EXISTS  shift, and go to state 85
+
+
+State 70
+
+   45 create_stmt: CREATE TABLE opt_if_not_exists NAME . create_col_list
+
+    NAME       shift, and go to state 86
+    BRACKET_O  shift, and go to state 87
+
+    $default  reduce using rule 46 (create_col_list)
+
+    create_col_list    go to state 88
+    create_definition  go to state 89
+
+
+State 71
+
+    5 expr_data: NAME DOT NAME .
+
+    $default  reduce using rule 5 (expr_data)
+
+
+State 72
+
+   56 string_list: BRACKET_O string_list BRACKET_C .
+
+    $default  reduce using rule 56 (string_list)
+
+
+State 73
+
+   55 string_list: string_list AND expr_data .
+
+    $default  reduce using rule 55 (string_list)
+
+
+State 74
+
+   37 delete_stmt: DELETE string_list FROM NAME . opt_where opt_orderby opt_limit
+
+    WHERE  shift, and go to state 90
+
+    $default  reduce using rule 89 (opt_where)
+
+    opt_where  go to state 91
+
+
+State 75
+
+   40 insert_stmt: INSERT opt_into NAME SET . pair_list opt_ondupupdate
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 78
+
+    expr_data  go to state 79
+    expr_pair  go to state 80
+    pair_list  go to state 92
+
+
+State 76
+
+   39 insert_stmt: INSERT opt_into NAME string_list . VALUES string_list opt_ondupupdate
+   41            | INSERT opt_into NAME string_list . select_stmt opt_ondupupdate
+   55 string_list: string_list . AND expr_data
+
+    AND        shift, and go to state 58
+    SELECT     shift, and go to state 6
+    VALUES     shift, and go to state 93
+    BRACKET_O  shift, and go to state 94
+
+    select_stmt  go to state 95
+
+
+State 77
+
+   19 select_stmt: SELECT select_opts string_list FROM . table_references opt_where opt_groupby opt_orderby opt_limit
+
+    NAME       shift, and go to state 1
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 96
+
+    select_stmt       go to state 82
+    join_table        go to state 83
+    table_references  go to state 97
+    table_factor      go to state 98
+
+
+State 78
+
+   17 pair_list: BRACKET_O . pair_list BRACKET_C
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 78
+
+    expr_data  go to state 79
+    expr_pair  go to state 80
+    pair_list  go to state 99
+
+
+State 79
+
+   14 expr_pair: expr_data . COMPARISON expr_data
+
+    COMPARISON  shift, and go to state 100
+
+
+State 80
+
+   15 pair_list: expr_pair .
+   16          | expr_pair . AND pair_list
+
+    AND  shift, and go to state 101
+
+    $default  reduce using rule 15 (pair_list)
+
+
+State 81
+
+   43 update_stmt: UPDATE NAME SET pair_list . opt_where opt_orderby opt_limit
+
+    WHERE  shift, and go to state 90
+
+    $default  reduce using rule 89 (opt_where)
+
+    opt_where  go to state 102
+
+
+State 82
+
+  102 table_factor: select_stmt . opt_as_alias
+
+    AS  shift, and go to state 20
+
+    AS        [reduce using rule 82 (opt_as_alias)]
+    $default  reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 46
+
+
+State 83
+
+  101 table_factor: join_table . opt_as_alias
+
+    AS  shift, and go to state 20
+
+    AS        [reduce using rule 82 (opt_as_alias)]
+    $default  reduce using rule 82 (opt_as_alias)
+
+    opt_as_alias  go to state 47
+
+
+State 84
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+   27           | table_factor join_opts JOIN table_factor . join_condition
+
+    INNER  shift, and go to state 48
+    LEFT   shift, and go to state 49
+    ON     shift, and go to state 103
+    RIGHT  shift, and go to state 50
+    FULL   shift, and go to state 51
+
+    INNER     [reduce using rule 30 (join_condition)]
+    JOIN      reduce using rule 30 (join_condition)
+    JOIN      [reduce using rule 35 (join_opts)]
+    LEFT      [reduce using rule 30 (join_condition)]
+    ON        [reduce using rule 30 (join_condition)]
+    RIGHT     [reduce using rule 30 (join_condition)]
+    FULL      [reduce using rule 30 (join_condition)]
+    $default  reduce using rule 30 (join_condition)
+
+    join_condition  go to state 104
+    join_opts       go to state 52
+
+
+State 85
+
+   84 opt_if_not_exists: IF NOT EXISTS .
+
+    $default  reduce using rule 84 (opt_if_not_exists)
+
+
+State 86
+
+   50 create_definition: NAME . data_type column_atts
+
+    BIGINT     shift, and go to state 105
+    BINARY     shift, and go to state 106
+    BIT        shift, and go to state 107
+    CHAR       shift, and go to state 108
+    DATE       shift, and go to state 109
+    DATETIME   shift, and go to state 110
+    DECIMAL    shift, and go to state 111
+    DOUBLE     shift, and go to state 112
+    FLOAT      shift, and go to state 113
+    INT        shift, and go to state 114
+    INTEGER    shift, and go to state 115
+    REAL       shift, and go to state 116
+    TEXT       shift, and go to state 117
+    TIME       shift, and go to state 118
+    TIMESTAMP  shift, and go to state 119
+    VARCHAR    shift, and go to state 120
+    YEAR       shift, and go to state 121
+
+    data_type  go to state 122
+
+
+State 87
+
+   49 create_col_list: BRACKET_O . create_col_list BRACKET_C
+
+    NAME       shift, and go to state 86
+    BRACKET_O  shift, and go to state 87
+
+    $default  reduce using rule 46 (create_col_list)
+
+    create_col_list    go to state 123
+    create_definition  go to state 89
+
+
+State 88
+
+   45 create_stmt: CREATE TABLE opt_if_not_exists NAME create_col_list .
+   48 create_col_list: create_col_list . AND create_definition
+
+    AND  shift, and go to state 124
+
+    $default  reduce using rule 45 (create_stmt)
+
+
+State 89
+
+   47 create_col_list: create_definition .
+
+    $default  reduce using rule 47 (create_col_list)
+
+
+State 90
+
+   90 opt_where: WHERE . expr_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 125
+
+    expr_data  go to state 126
+    expr       go to state 127
+    expr_list  go to state 128
+
+
+State 91
+
+   37 delete_stmt: DELETE string_list FROM NAME opt_where . opt_orderby opt_limit
+
+    ORDER  shift, and go to state 129
+
+    $default  reduce using rule 93 (opt_orderby)
+
+    opt_orderby  go to state 130
+
+
+State 92
+
+   40 insert_stmt: INSERT opt_into NAME SET pair_list . opt_ondupupdate
+
+    ON  shift, and go to state 131
+
+    $default  reduce using rule 87 (opt_ondupupdate)
+
+    opt_ondupupdate  go to state 132
+
+
+State 93
+
+   39 insert_stmt: INSERT opt_into NAME string_list VALUES . string_list opt_ondupupdate
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 133
+
+
+State 94
+
+   20 select_stmt: BRACKET_O . select_stmt BRACKET_C
+
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 94
+
+    select_stmt  go to state 134
+
+
+State 95
+
+   41 insert_stmt: INSERT opt_into NAME string_list select_stmt . opt_ondupupdate
+
+    ON  shift, and go to state 131
+
+    $default  reduce using rule 87 (opt_ondupupdate)
+
+    opt_ondupupdate  go to state 135
+
+
+State 96
+
+   20 select_stmt: BRACKET_O . select_stmt BRACKET_C
+   28 join_table: BRACKET_O . join_table BRACKET_C
+   99 table_references: BRACKET_O . table_references BRACKET_C
+  103 table_factor: BRACKET_O . table_factor BRACKET_C
+
+    NAME       shift, and go to state 1
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 96
+
+    select_stmt       go to state 40
+    join_table        go to state 41
+    table_references  go to state 136
+    table_factor      go to state 137
+
+
+State 97
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references . opt_where opt_groupby opt_orderby opt_limit
+   98 table_references: table_references . AND table_factor
+
+    AND    shift, and go to state 138
+    WHERE  shift, and go to state 90
+
+    AND       [reduce using rule 89 (opt_where)]
+    WHERE     [reduce using rule 89 (opt_where)]
+    $default  reduce using rule 89 (opt_where)
+
+    opt_where  go to state 139
+
+
+State 98
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+   97 table_references: table_factor .
+
+    INNER  shift, and go to state 48
+    LEFT   shift, and go to state 49
+    RIGHT  shift, and go to state 50
+    FULL   shift, and go to state 51
+
+    INNER     [reduce using rule 97 (table_references)]
+    JOIN      reduce using rule 35 (join_opts)
+    JOIN      [reduce using rule 97 (table_references)]
+    LEFT      [reduce using rule 97 (table_references)]
+    RIGHT     [reduce using rule 97 (table_references)]
+    FULL      [reduce using rule 97 (table_references)]
+    $default  reduce using rule 97 (table_references)
+
+    join_opts  go to state 52
+
+
+State 99
+
+   17 pair_list: BRACKET_O pair_list . BRACKET_C
+
+    BRACKET_C  shift, and go to state 140
+
+
+State 100
+
+   14 expr_pair: expr_data COMPARISON . expr_data
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+
+    expr_data  go to state 141
+
+
+State 101
+
+   16 pair_list: expr_pair AND . pair_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 78
+
+    expr_data  go to state 79
+    expr_pair  go to state 80
+    pair_list  go to state 142
+
+
+State 102
+
+   43 update_stmt: UPDATE NAME SET pair_list opt_where . opt_orderby opt_limit
+
+    ORDER  shift, and go to state 129
+
+    $default  reduce using rule 93 (opt_orderby)
+
+    opt_orderby  go to state 143
+
+
+State 103
+
+   29 join_condition: ON . expr_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 125
+
+    expr_data  go to state 126
+    expr       go to state 127
+    expr_list  go to state 144
+
+
+State 104
+
+   27 join_table: table_factor join_opts JOIN table_factor join_condition .
+
+    $default  reduce using rule 27 (join_table)
+
+
+State 105
+
+   67 data_type: BIGINT .
+
+    $default  reduce using rule 67 (data_type)
+
+
+State 106
+
+   79 data_type: BINARY .
+
+    $default  reduce using rule 79 (data_type)
+
+
+State 107
+
+   64 data_type: BIT .
+
+    $default  reduce using rule 64 (data_type)
+
+
+State 108
+
+   77 data_type: CHAR .
+
+    $default  reduce using rule 77 (data_type)
+
+
+State 109
+
+   72 data_type: DATE .
+
+    $default  reduce using rule 72 (data_type)
+
+
+State 110
+
+   75 data_type: DATETIME .
+
+    $default  reduce using rule 75 (data_type)
+
+
+State 111
+
+   71 data_type: DECIMAL .
+
+    $default  reduce using rule 71 (data_type)
+
+
+State 112
+
+   69 data_type: DOUBLE .
+
+    $default  reduce using rule 69 (data_type)
+
+
+State 113
+
+   70 data_type: FLOAT .
+
+    $default  reduce using rule 70 (data_type)
+
+
+State 114
+
+   65 data_type: INT .
+
+    $default  reduce using rule 65 (data_type)
+
+
+State 115
+
+   66 data_type: INTEGER .
+
+    $default  reduce using rule 66 (data_type)
+
+
+State 116
+
+   68 data_type: REAL .
+
+    $default  reduce using rule 68 (data_type)
+
+
+State 117
+
+   80 data_type: TEXT .
+
+    $default  reduce using rule 80 (data_type)
+
+
+State 118
+
+   73 data_type: TIME .
+
+    $default  reduce using rule 73 (data_type)
+
+
+State 119
+
+   74 data_type: TIMESTAMP .
+
+    $default  reduce using rule 74 (data_type)
+
+
+State 120
+
+   78 data_type: VARCHAR .
+
+    $default  reduce using rule 78 (data_type)
+
+
+State 121
+
+   76 data_type: YEAR .
+
+    $default  reduce using rule 76 (data_type)
+
+
+State 122
+
+   50 create_definition: NAME data_type . column_atts
+
+    NOT             shift, and go to state 145
+    AUTO_INCREMENT  shift, and go to state 146
+    KEY             shift, and go to state 147
+    NULLX           shift, and go to state 148
+    PRIMARY         shift, and go to state 149
+    UNIQUE          shift, and go to state 150
+
+    $default  reduce using rule 57 (column_atts)
+
+    column_atts  go to state 151
+
+
+State 123
+
+   48 create_col_list: create_col_list . AND create_definition
+   49                | BRACKET_O create_col_list . BRACKET_C
+
+    AND        shift, and go to state 124
+    BRACKET_C  shift, and go to state 152
+
+
+State 124
+
+   48 create_col_list: create_col_list AND . create_definition
+
+    NAME  shift, and go to state 86
+
+    create_definition  go to state 153
+
+
+State 125
+
+   13 expr_list: BRACKET_O . expr_list BRACKET_C
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 125
+
+    expr_data  go to state 126
+    expr       go to state 127
+    expr_list  go to state 154
+
+
+State 126
+
+   10 expr: expr_data . COMPARISON expr_data
+
+    COMPARISON  shift, and go to state 155
+
+
+State 127
+
+   11 expr_list: expr .
+   12          | expr . AND expr_list
+
+    AND  shift, and go to state 156
+
+    AND       [reduce using rule 11 (expr_list)]
+    $default  reduce using rule 11 (expr_list)
+
+
+State 128
+
+   90 opt_where: WHERE expr_list .
+
+    $default  reduce using rule 90 (opt_where)
+
+
+State 129
+
+   94 opt_orderby: ORDER . BY string_list
+
+    BY  shift, and go to state 157
+
+
+State 130
+
+   37 delete_stmt: DELETE string_list FROM NAME opt_where opt_orderby . opt_limit
+
+    LIMIT  shift, and go to state 158
+
+    $default  reduce using rule 95 (opt_limit)
+
+    opt_limit  go to state 159
+
+
+State 131
+
+   88 opt_ondupupdate: ON . DUPLICATE KEY UPDATE pair_list
+
+    DUPLICATE  shift, and go to state 160
+
+
+State 132
+
+   40 insert_stmt: INSERT opt_into NAME SET pair_list opt_ondupupdate .
+
+    $default  reduce using rule 40 (insert_stmt)
+
+
+State 133
+
+   39 insert_stmt: INSERT opt_into NAME string_list VALUES string_list . opt_ondupupdate
+   55 string_list: string_list . AND expr_data
+
+    AND  shift, and go to state 58
+    ON   shift, and go to state 131
+
+    $default  reduce using rule 87 (opt_ondupupdate)
+
+    opt_ondupupdate  go to state 161
+
+
+State 134
+
+   20 select_stmt: BRACKET_O select_stmt . BRACKET_C
+
+    BRACKET_C  shift, and go to state 64
+
+
+State 135
+
+   41 insert_stmt: INSERT opt_into NAME string_list select_stmt opt_ondupupdate .
+
+    $default  reduce using rule 41 (insert_stmt)
+
+
+State 136
+
+   98 table_references: table_references . AND table_factor
+   99                 | BRACKET_O table_references . BRACKET_C
+
+    AND        shift, and go to state 138
+    BRACKET_C  shift, and go to state 162
+
+
+State 137
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+   97 table_references: table_factor .
+  103 table_factor: BRACKET_O table_factor . BRACKET_C
+
+    INNER      shift, and go to state 48
+    LEFT       shift, and go to state 49
+    RIGHT      shift, and go to state 50
+    FULL       shift, and go to state 51
+    BRACKET_C  shift, and go to state 66
+
+    AND        reduce using rule 97 (table_references)
+    BRACKET_C  [reduce using rule 97 (table_references)]
+    $default   reduce using rule 35 (join_opts)
+
+    join_opts  go to state 52
+
+
+State 138
+
+   98 table_references: table_references AND . table_factor
+
+    NAME       shift, and go to state 1
+    SELECT     shift, and go to state 6
+    BRACKET_O  shift, and go to state 8
+
+    select_stmt   go to state 82
+    join_table    go to state 83
+    table_factor  go to state 163
+
+
+State 139
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references opt_where . opt_groupby opt_orderby opt_limit
+
+    GROUP  shift, and go to state 164
+
+    GROUP     [reduce using rule 91 (opt_groupby)]
+    $default  reduce using rule 91 (opt_groupby)
+
+    opt_groupby  go to state 165
+
+
+State 140
+
+   17 pair_list: BRACKET_O pair_list BRACKET_C .
+
+    $default  reduce using rule 17 (pair_list)
+
+
+State 141
+
+   14 expr_pair: expr_data COMPARISON expr_data .
+
+    $default  reduce using rule 14 (expr_pair)
+
+
+State 142
+
+   16 pair_list: expr_pair AND pair_list .
+
+    $default  reduce using rule 16 (pair_list)
+
+
+State 143
+
+   43 update_stmt: UPDATE NAME SET pair_list opt_where opt_orderby . opt_limit
+
+    LIMIT  shift, and go to state 158
+
+    $default  reduce using rule 95 (opt_limit)
+
+    opt_limit  go to state 166
+
+
+State 144
+
+   29 join_condition: ON expr_list .
+
+    $default  reduce using rule 29 (join_condition)
+
+
+State 145
+
+   58 column_atts: NOT . NULLX
+
+    NULLX  shift, and go to state 167
+
+
+State 146
+
+   60 column_atts: AUTO_INCREMENT .
+
+    $default  reduce using rule 60 (column_atts)
+
+
+State 147
+
+   63 column_atts: KEY .
+
+    $default  reduce using rule 63 (column_atts)
+
+
+State 148
+
+   59 column_atts: NULLX .
+
+    $default  reduce using rule 59 (column_atts)
+
+
+State 149
+
+   62 column_atts: PRIMARY . KEY
+
+    KEY  shift, and go to state 168
+
+
+State 150
+
+   61 column_atts: UNIQUE . KEY
+
+    KEY  shift, and go to state 169
+
+
+State 151
+
+   50 create_definition: NAME data_type column_atts .
+
+    $default  reduce using rule 50 (create_definition)
+
+
+State 152
+
+   49 create_col_list: BRACKET_O create_col_list BRACKET_C .
+
+    $default  reduce using rule 49 (create_col_list)
+
+
+State 153
+
+   48 create_col_list: create_col_list AND create_definition .
+
+    $default  reduce using rule 48 (create_col_list)
+
+
+State 154
+
+   13 expr_list: BRACKET_O expr_list . BRACKET_C
+
+    BRACKET_C  shift, and go to state 170
+
+
+State 155
+
+   10 expr: expr_data COMPARISON . expr_data
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+
+    expr_data  go to state 171
+
+
+State 156
+
+   12 expr_list: expr AND . expr_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 125
+
+    expr_data  go to state 126
+    expr       go to state 127
+    expr_list  go to state 172
+
+
+State 157
+
+   94 opt_orderby: ORDER BY . string_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 173
+
+
+State 158
+
+   96 opt_limit: LIMIT . INTNUM
+
+    INTNUM  shift, and go to state 174
+
+
+State 159
+
+   37 delete_stmt: DELETE string_list FROM NAME opt_where opt_orderby opt_limit .
+
+    $default  reduce using rule 37 (delete_stmt)
+
+
+State 160
+
+   88 opt_ondupupdate: ON DUPLICATE . KEY UPDATE pair_list
+
+    KEY  shift, and go to state 175
+
+
+State 161
+
+   39 insert_stmt: INSERT opt_into NAME string_list VALUES string_list opt_ondupupdate .
+
+    $default  reduce using rule 39 (insert_stmt)
+
+
+State 162
+
+   99 table_references: BRACKET_O table_references BRACKET_C .
+
+    $default  reduce using rule 99 (table_references)
+
+
+State 163
+
+   27 join_table: table_factor . join_opts JOIN table_factor join_condition
+   98 table_references: table_references AND table_factor .
+
+    INNER  shift, and go to state 48
+    LEFT   shift, and go to state 49
+    RIGHT  shift, and go to state 50
+    FULL   shift, and go to state 51
+
+    INNER     [reduce using rule 98 (table_references)]
+    JOIN      reduce using rule 35 (join_opts)
+    JOIN      [reduce using rule 98 (table_references)]
+    LEFT      [reduce using rule 98 (table_references)]
+    RIGHT     [reduce using rule 98 (table_references)]
+    FULL      [reduce using rule 98 (table_references)]
+    $default  reduce using rule 98 (table_references)
+
+    join_opts  go to state 52
+
+
+State 164
+
+   92 opt_groupby: GROUP . BY string_list
+
+    BY  shift, and go to state 176
+
+
+State 165
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references opt_where opt_groupby . opt_orderby opt_limit
+
+    ORDER  shift, and go to state 129
+
+    ORDER     [reduce using rule 93 (opt_orderby)]
+    $default  reduce using rule 93 (opt_orderby)
+
+    opt_orderby  go to state 177
+
+
+State 166
+
+   43 update_stmt: UPDATE NAME SET pair_list opt_where opt_orderby opt_limit .
+
+    $default  reduce using rule 43 (update_stmt)
+
+
+State 167
+
+   58 column_atts: NOT NULLX .
+
+    $default  reduce using rule 58 (column_atts)
+
+
+State 168
+
+   62 column_atts: PRIMARY KEY .
+
+    $default  reduce using rule 62 (column_atts)
+
+
+State 169
+
+   61 column_atts: UNIQUE KEY .
+
+    $default  reduce using rule 61 (column_atts)
+
+
+State 170
+
+   13 expr_list: BRACKET_O expr_list BRACKET_C .
+
+    $default  reduce using rule 13 (expr_list)
+
+
+State 171
+
+   10 expr: expr_data COMPARISON expr_data .
+
+    $default  reduce using rule 10 (expr)
+
+
+State 172
+
+   12 expr_list: expr AND expr_list .
+
+    $default  reduce using rule 12 (expr_list)
+
+
+State 173
+
+   55 string_list: string_list . AND expr_data
+   94 opt_orderby: ORDER BY string_list .
+
+    AND  shift, and go to state 58
+
+    AND       [reduce using rule 94 (opt_orderby)]
+    $default  reduce using rule 94 (opt_orderby)
+
+
+State 174
+
+   96 opt_limit: LIMIT INTNUM .
+
+    $default  reduce using rule 96 (opt_limit)
+
+
+State 175
+
+   88 opt_ondupupdate: ON DUPLICATE KEY . UPDATE pair_list
+
+    UPDATE  shift, and go to state 178
+
+
+State 176
+
+   92 opt_groupby: GROUP BY . string_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 28
+
+    $default  reduce using rule 53 (string_list)
+
+    expr_data    go to state 29
+    string_list  go to state 179
+
+
+State 177
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references opt_where opt_groupby opt_orderby . opt_limit
+
+    LIMIT  shift, and go to state 158
+
+    LIMIT     [reduce using rule 95 (opt_limit)]
+    $default  reduce using rule 95 (opt_limit)
+
+    opt_limit  go to state 180
+
+
+State 178
+
+   88 opt_ondupupdate: ON DUPLICATE KEY UPDATE . pair_list
+
+    STRING     shift, and go to state 23
+    NAME       shift, and go to state 24
+    INTNUM     shift, and go to state 25
+    BOOL       shift, and go to state 26
+    APPROXNUM  shift, and go to state 27
+    BRACKET_O  shift, and go to state 78
+
+    expr_data  go to state 79
+    expr_pair  go to state 80
+    pair_list  go to state 181
+
+
+State 179
+
+   55 string_list: string_list . AND expr_data
+   92 opt_groupby: GROUP BY string_list .
+
+    AND  shift, and go to state 58
+
+    AND       [reduce using rule 92 (opt_groupby)]
+    $default  reduce using rule 92 (opt_groupby)
+
+
+State 180
+
+   19 select_stmt: SELECT select_opts string_list FROM table_references opt_where opt_groupby opt_orderby opt_limit .
+
+    $default  reduce using rule 19 (select_stmt)
+
+
+State 181
+
+   88 opt_ondupupdate: ON DUPLICATE KEY UPDATE pair_list .
+
+    $default  reduce using rule 88 (opt_ondupupdate)

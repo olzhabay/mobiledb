@@ -11,8 +11,9 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include "status.h"
-#include "port.h"
+#include <set>
+#include "status.hh"
+#include "port.hh"
 
 
 struct FileLock {
@@ -25,15 +26,15 @@ struct FileLock {
 // any protection against multiple uses from the same process.
 class LockTable {
 private:
-    Mutex mu_;
+    port::Mutex mu_;
     std::set<std::string> locked_files_ GUARDED_BY(mu_);
 public:
     bool Insert(const std::string& fname) LOCKS_EXCLUDED(mu_) {
-            MutexLock l(&mu_);
+            port::MutexLock l(&mu_);
             return locked_files_.insert(fname).second;
     }
     void Remove(const std::string& fname) LOCKS_EXCLUDED(mu_) {
-            MutexLock l(&mu_);
+            port::MutexLock l(&mu_);
             locked_files_.erase(fname);
     }
 };
@@ -183,10 +184,7 @@ public:
         return static_cast<uint64_t>(tv.tv_sec) * 1000000 + tv.tv_usec;
     }
 
-    static Env* Default() {
-        pthread_once(&once, InitDefaultEnv);
-        return default_env;
-    }
+    static Env* Default();
 
 private:
 
@@ -209,13 +207,18 @@ private:
         return nullptr;
     }
 
-
     LockTable locks_;
-
-    static pthread_once_t once = PTHREAD_ONCE_INIT;
-    static void InitDefaultEnv() { default_env = new Env; }
-    static Env* default_env;
 };
+
+static Env* default_env;
+
+
+Env* Env::Default() {
+  if (!default_env) {
+    default_env = new Env();
+  }
+  return default_env;
+}
 
 
 #endif //MOBILEDB_ENV_H
