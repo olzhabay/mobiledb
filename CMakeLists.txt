@@ -35,33 +35,33 @@ set(DB_FILES
         common/thread_annotations.hh
         common/testutil.hh
         common/persist.hh
-        parser/location.hh
-        parser/position.hh
-        parser/sql_driver.hh
-        parser/sql_driver.cc
-        parser/sql_parser.hh
-        parser/sql_parser.cc
-        parser/sql_scanner.hh
-        parser/sql_scanner.cc
-        parser/sql_scanner.hpp
-        parser/stack.hh
-        parser/statements/create_statement.cc
-        parser/statements/create_statement.hh
-        parser/statements/delete_statement.cc
-        parser/statements/delete_statement.hh
-        parser/statements/drop_statement.cc
-        parser/statements/drop_statement.hh
-        parser/statements/insert_statement.cc
-        parser/statements/insert_statement.hh
-        parser/statements/select_statement.cc
-        parser/statements/select_statement.hh
-        parser/statements/sql_statement.cc
-        parser/statements/sql_statement.hh
-        parser/statements/sql_table.cc
-        parser/statements/sql_table.hh
-        parser/statements/update_statement.cc
-        parser/statements/update_statement.hh
-        parser/sql_message.hh
+	#        parser/location.hh
+	#        parser/position.hh
+	#        parser/sql_driver.hh
+	#        parser/sql_driver.cc
+	#        parser/sql_parser.hh
+	#        parser/sql_parser.cc
+	#        parser/sql_scanner.hh
+	#        parser/sql_scanner.cc
+	#        parser/sql_scanner.hpp
+	#        parser/stack.hh
+	#        parser/statements/create_statement.cc
+	#        parser/statements/create_statement.hh
+	#        parser/statements/delete_statement.cc
+	#        parser/statements/delete_statement.hh
+	#        parser/statements/drop_statement.cc
+	#        parser/statements/drop_statement.hh
+	#        parser/statements/insert_statement.cc
+	#        parser/statements/insert_statement.hh
+	#        parser/statements/select_statement.cc
+	#        parser/statements/select_statement.hh
+	#        parser/statements/sql_statement.cc
+	#        parser/statements/sql_statement.hh
+	#        parser/statements/sql_table.cc
+	#        parser/statements/sql_table.hh
+	#        parser/statements/update_statement.cc
+	#        parser/statements/update_statement.hh
+	#        parser/sql_message.hh
         common/iterator.hh db/storage_manager.cc db/storage_manager.hh db/btree_iterator.cc db/btree_iterator.hh db/kv_store_iterator.cc db/kv_store_iterator.hh)
 
 add_library(mobiledblib ${DB_FILES})

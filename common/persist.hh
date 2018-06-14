@@ -11,11 +11,6 @@
 #define CACHE_LINE_SIZE (64)
 #define PAGESIZE 512
 
-#define start_timer()    *((volatile uint32_t*)0xE0001000) = 0x40000001  // Enable CYCCNT register
-#define stop_timer()   *((volatile uint32_t*)0xE0001000) = 0x40000000  // Disable CYCCNT register
-#define get_timer()   *((volatile uint32_t*)0xE0001004)               // Get value from CYCCNT register
-
-
 static uint64_t WRITE_LATENCY_IN_NS = 500;
 
 static inline void cpu_pause() {
@@ -28,11 +23,9 @@ static inline void cpu_pause() {
 
 static inline unsigned long read_tsc(void) {
 #if defined(__ARM_ARCH)
-  uint32_t it;
-  start_timer();
-  it = get_timer();
-  stop_timer();
-  return it;
+  struct timeval tv;
+  gettimeofday(&tv, nullptr);
+  return tv.tv_sec * 1000000 + tv.tv_usec;  
 #else
   uint64_t low, high;
   __asm__ volatile("rdtsc" : "=a"(low), "=d"(high));
@@ -55,7 +48,7 @@ inline void clflush(char *data, size_t len) {
   for (; ptr<data+len; ptr+=CACHE_LINE_SIZE) {
     unsigned long etsc = read_tsc() + (unsigned long)(WRITE_LATENCY_IN_NS*CPU_FREQ_MHZ/1000);
 #if defined(__ARM_ARCH)
-    __builtin___clear_cache(ptr, ptr+len);
+//    __builtin___clear_cache(ptr, ptr+len);
 #else
     asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));
 #endif
