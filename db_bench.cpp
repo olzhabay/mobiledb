@@ -26,7 +26,6 @@
 
 static const char* FLAGS_benchmarks =
   "fillseq,"
-  "fillsync,"
   "fillrandom,"
   "overwrite,"
   "readrandom,"
@@ -319,6 +318,7 @@ public:
 
   void Run() {
     PrintHeader();
+    db_ = new KVStore();
 
     const char* benchmarks = FLAGS_benchmarks;
     while (benchmarks != nullptr) {
@@ -490,7 +490,7 @@ private:
   }
 
   void ReadRandom(ThreadState* thread) {
-    std::string value;
+    Slice value;
     int found = 0;
     for (int i = 0; i < reads_; i++) {
       char key[100];

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#ifndef MOBILEDB_PORT_H
-#define MOBILEDB_PORT_H
+#ifndef MOBILEDB_PORT_HH
+#define MOBILEDB_PORT_HH
 
 #include <stddef.h>
 #include <stdint.h>
@@ -87,4 +87,4 @@ private:
 
 }
 
-#endif //MOBILEDB_PORT_H
+#endif //MOBILEDB_PORT_HH

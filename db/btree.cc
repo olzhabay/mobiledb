@@ -1,22 +1,21 @@
-#include "ff_btree.hh"
-
-
+#include "btree.hh"
+#include "btree_iterator.hh"
 
 /*
  *  class btree
  */
-FFBtree::FFBtree(){
+Btree::Btree(){
   root = (char*)new Page();
   height = 1;
 }
 
-void FFBtree::setNewRoot(char* new_root) {
+void Btree::setNewRoot(char* new_root) {
   this->root = (char*)new_root;
   clflush((char*)&(this->root),sizeof(char*));
   ++height;
 }
 
-char *FFBtree::Search(entry_key_t key){
+char *Btree::Search(entry_key_t key){
   Page* p = (Page*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -39,7 +38,7 @@ char *FFBtree::Search(entry_key_t key){
   return (char *)t;
 }
 
-void FFBtree::Insert(entry_key_t key, char* right){ //need to be string
+void Btree::Insert(entry_key_t key, char* right){ //need to be string
   Page* p = (Page*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -51,7 +50,7 @@ void FFBtree::Insert(entry_key_t key, char* right){ //need to be string
   }
 }
 
-void FFBtree::InsertInternal(char* left, entry_key_t key,
+void Btree::InsertInternal(char* left, entry_key_t key,
                              char* right, uint32_t level) {
   if(level > ((Page *)root)->hdr.level)
     return;
@@ -66,7 +65,7 @@ void FFBtree::InsertInternal(char* left, entry_key_t key,
   }
 }
 
-void FFBtree::Remove(entry_key_t key) {
+void Btree::Remove(entry_key_t key) {
   Page* p = (Page*)root;
 
   while(p->hdr.leftmost_ptr != NULL){
@@ -90,7 +89,7 @@ void FFBtree::Remove(entry_key_t key) {
   }
 }
 
-void FFBtree::RemoveInternal(entry_key_t key, char* ptr, uint32_t level,
+void Btree::RemoveInternal(entry_key_t key, char* ptr, uint32_t level,
                              entry_key_t* deleted_key, bool* is_leftmost_node,
                              Page** left_sibling) {
   if(level > ((Page *)this->root)->hdr.level)
@@ -131,7 +130,7 @@ void FFBtree::RemoveInternal(entry_key_t key, char* ptr, uint32_t level,
   }
 }
 
-void FFBtree::Range(entry_key_t min, entry_key_t max, unsigned long* buf) {
+void Btree::Range(entry_key_t min, entry_key_t max, unsigned long* buf) {
   Page *p = (Page *)root;
 
   while(p) {
@@ -146,4 +145,8 @@ void FFBtree::Range(entry_key_t min, entry_key_t max, unsigned long* buf) {
       break;
     }
   }
+}
+
+BtreeIterator* Btree::GetIterator() {
+  return new BtreeIterator(this);
 }

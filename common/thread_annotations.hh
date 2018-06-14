@@ -1,5 +1,5 @@
-#ifndef MOBILEDB_THREAD_ANNOTATIONS_H
-#define MOBILEDB_THREAD_ANNOTATIONS_H
+#ifndef MOBILEDB_THREAD_ANNOTATIONS_HH
+#define MOBILEDB_THREAD_ANNOTATIONS_HH
 
 // Use Clang's thread safety analysis annotations when available. In other
 // environments, the macros receive empty definitions.
@@ -104,4 +104,4 @@
   THREAD_ANNOTATION_ATTRIBUTE__(assert_shared_lock(__VA_ARGS__))
 #endif
 
-#endif //MOBILEDB_THREAD_ANNOTATIONS_H
+#endif //MOBILEDB_THREAD_ANNOTATIONS_HH

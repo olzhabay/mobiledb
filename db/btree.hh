@@ -17,6 +17,7 @@
 #include <future>
 #include <mutex>
 #include "../common/persist.hh"
+#include "storage_manager.hh"
 
 #define IS_FORWARD(c) (c % 2 == 0)
 
@@ -25,8 +26,9 @@ using entry_key_t = int64_t;
 using namespace std;
 
 class Page;
+class BtreeIterator;
 
-class FFBtree {
+class Btree {
 private:
   int height;
   char* root;
@@ -38,15 +40,17 @@ private:
                       entry_key_t* deleted_key, bool* is_leftmost_node, Page** left_sibling);
 
 public:
-  FFBtree();
+  Btree();
 // insert the key in the leaf node
   void Insert(entry_key_t key, char* right);
   void Remove(entry_key_t key);
   char* Search(entry_key_t key);
 // Function to Search keys from "min" to "max"
   void Range(entry_key_t min, entry_key_t max, unsigned long* buf);
+  BtreeIterator* GetIterator();
 
   friend class Page;
+  friend class BtreeIterator;
 };
 
 class Header {
@@ -60,7 +64,8 @@ private:
   char dummy[8];              // 8 bytes
 
   friend class Page;
-  friend class FFBtree;
+  friend class Btree;
+  friend class BtreeIterator;
 
 public:
   Header() {
@@ -86,7 +91,8 @@ public :
   }
 
   friend class Page;
-  friend class FFBtree;
+  friend class Btree;
+  friend class BtreeIterator;
 };
 
 const int cardinality = (PAGESIZE - sizeof(Header)) / sizeof(Entry);
@@ -98,7 +104,8 @@ private:
   Entry records[cardinality]; // slots in persistent memory, 16 bytes * n
 
 public:
-  friend class FFBtree;
+  friend class Btree;
+  friend class BtreeIterator;
 
   Page(uint32_t level = 0) {
     hdr.level = level;
@@ -189,7 +196,7 @@ public:
     return shift;
   }
 
-  bool remove(FFBtree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
+  bool remove(Btree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
     if (!only_rebalance) {
       register int num_entries_before = count();
 
@@ -394,13 +401,17 @@ public:
       }
 
       // check for duplicate key
-      for (i = *num_entries - 1; i >=0; i--) {
-        if (key == records[i].key) {
-          records[i].ptr = ptr;
-          if (flush) {
-            clflush((char*) &records[0], sizeof(Entry));
+      if (hdr.leftmost_ptr == nullptr) {
+        for (i = *num_entries - 1; i >= 0; i--) {
+          if (key == records[i].key) {
+            char* tmp = records[i].ptr;
+            records[i].ptr = ptr;
+            if (flush) {
+              clflush((char*) &records[0], sizeof(Entry));
+            }
+            StorageManager::Erase(tmp);
+            return;
           }
-          return;
         }
       }
 
@@ -451,7 +462,7 @@ public:
 
   // Insert a new key - FAST and FAIR
   Page* store
-    (FFBtree* bt, char* left, entry_key_t key, char* right,
+    (Btree* bt, char* left, entry_key_t key, char* right,
      bool flush, Page* invalid_sibling = NULL) {
     // If this node has a sibling node,
     if (hdr.sibling_ptr && (hdr.sibling_ptr != invalid_sibling)) {

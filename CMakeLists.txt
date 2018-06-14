@@ -17,11 +17,16 @@ endif (SQLITE3_FOUND)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
 
+add_compile_options(
+        -O2
+        -DNDEBUG
+)
+
 set(DB_FILES
         db/kv_store.hh
         db/kv_store.cc
-        db/ff_btree.cc
-        db/ff_btree.hh
+        db/btree.cc
+        db/btree.hh
         common/env.hh
         common/slice.hh
         common/status.hh
@@ -57,7 +62,7 @@ set(DB_FILES
         parser/statements/update_statement.cc
         parser/statements/update_statement.hh
         parser/sql_message.hh
-        common/iterator.hh)
+        common/iterator.hh db/storage_manager.cc db/storage_manager.hh db/btree_iterator.cc db/btree_iterator.hh db/kv_store_iterator.cc db/kv_store_iterator.hh)
 
 add_library(mobiledblib ${DB_FILES})
 set_target_properties(mobiledblib PROPERTIES LINKER_LANGUAGE CXX)

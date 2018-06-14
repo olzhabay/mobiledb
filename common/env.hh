@@ -1,5 +1,5 @@
-#ifndef MOBILEDB_ENV_H
-#define MOBILEDB_ENV_H
+#ifndef MOBILEDB_ENV_HH
+#define MOBILEDB_ENV_HH
 
 
 #include <stdint.h>
@@ -221,4 +221,4 @@ Env* Env::Default() {
 }
 
 
-#endif //MOBILEDB_ENV_H
+#endif //MOBILEDB_ENV_HH

@@ -26,20 +26,11 @@
 //   readrandom    -- read N times in random order
 //   readrand100K  -- read N/1000 100K values in sequential order in async mode
 static const char* FLAGS_benchmarks =
-    "fillseq,"
-    "fillseqsync,"
-    "fillseqbatch,"
-    "fillrandom,"
-    "fillrandsync,"
-    "fillrandbatch,"
-    "overwrite,"
-    "overwritebatch,"
-    "readrandom,"
-    "readseq,"
-    "fillrand100K,"
-    "fillseq100K,"
-    "readseq,"
-    "readrand100K,"
+  "fillseq,"
+  "fillrandom,"
+  "overwrite,"
+  "readrandom,"
+  "readseq,"
     ;
 
 // Number of key/values to place in database

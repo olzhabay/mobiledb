@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#ifndef MOBILEDB_TESTUTIL_H
-#define MOBILEDB_TESTUTIL_H
+#ifndef MOBILEDB_TESTUTIL_HH
+#define MOBILEDB_TESTUTIL_HH
 
 
 #include "random.hh"
@@ -51,4 +51,4 @@ extern Slice CompressibleString(Random* rnd, double compressed_fraction,
 
 }  // namespace test
 
-#endif //MOBILEDB_TESTUTIL_H
+#endif //MOBILEDB_TESTUTIL_HH

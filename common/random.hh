@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-#ifndef MOBILEDB_RANDOM_H
-#define MOBILEDB_RANDOM_H
+#ifndef MOBILEDB_RANDOM_HH
+#define MOBILEDB_RANDOM_HH
 
 #include <stdint.h>
 
@@ -58,4 +58,4 @@ public:
     }
 };
 
-#endif //MOBILEDB_RANDOM_H
+#endif //MOBILEDB_RANDOM_HH

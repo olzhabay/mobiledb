@@ -10,8 +10,8 @@
 // non-const method, all threads accessing the same Status must use
 // external synchronization.
 
-#ifndef MOBILEDB_STATUS_H
-#define MOBILEDB_STATUS_H
+#ifndef MOBILEDB_STATUS_HH
+#define MOBILEDB_STATUS_HH
 
 #include <algorithm>
 #include <string>
@@ -177,4 +177,4 @@ inline Status& Status::operator=(Status&& rhs) noexcept {
 }
 
 
-#endif //MOBILEDB_STATUS_H
+#endif //MOBILEDB_STATUS_HH
