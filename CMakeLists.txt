@@ -68,7 +68,7 @@ add_library(mobiledblib ${DB_FILES})
 set_target_properties(mobiledblib PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(mobiledblib PRIVATE ${Pthread_LIBRARY} )
 
-add_executable(db_bench db_bench.cpp)
+add_executable(db_bench db_bench.cc)
 target_link_libraries(db_bench PUBLIC mobiledblib)
 
 add_executable(db_bench_sqlite3 db_bench_sqlite3.cc)

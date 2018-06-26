@@ -61,7 +61,6 @@ private:
   uint8_t switch_counter;     // 1 bytes
   uint8_t is_deleted;         // 1 bytes
   int16_t last_index;         // 2 bytes
-  char dummy[8];              // 8 bytes
 
   friend class Page;
   friend class Btree;
