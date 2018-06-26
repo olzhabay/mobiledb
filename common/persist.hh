@@ -22,7 +22,7 @@ static inline void cpu_pause() {
 }
 
 static inline unsigned long read_tsc(void) {
-#elif defined(__i386__)
+#if defined(__i386__)
   int64_t ret;
   __asm__ volatile("rdtsc" : "=A"(ret));
   return ret;
