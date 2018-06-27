@@ -119,7 +119,7 @@ inline void clflush(char *data, size_t len) {
   for (; ptr<data+len; ptr+=CACHE_LINE_SIZE) {
     unsigned long etsc = read_tsc() + (unsigned long)(WRITE_LATENCY_IN_NS*CPU_FREQ_MHZ/1000);
 #if defined(__ARM_ARCH)
-//    __builtin___clear_cache(ptr, ptr+len);
+    __builtin___clear_cache(ptr, ptr+len);
 #else
     asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));
 #endif
