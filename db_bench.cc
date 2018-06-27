@@ -27,7 +27,6 @@
 static const char* FLAGS_benchmarks =
   "fillseq,"
   "fillrandom,"
-  "overwrite,"
   "readrandom,"
   "readseq,"
 ;

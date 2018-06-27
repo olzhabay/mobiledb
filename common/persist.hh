@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <atomic>
 
-#define CPU_FREQ_MHZ (994) // cat /proc/cpuinfo
+#define CPU_FREQ_MHZ (1900) // cat /proc/cpuinfo
 #define CACHE_LINE_SIZE (64)
 #define PAGESIZE 512
 

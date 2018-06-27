@@ -28,7 +28,6 @@
 static const char* FLAGS_benchmarks =
   "fillseq,"
   "fillrandom,"
-  "overwrite,"
   "readrandom,"
   "readseq,"
     ;
@@ -408,8 +407,7 @@ class Benchmark {
     db_num_++;
 
     // Open database
-    std::string tmp_dir;
-    Env::Default()->GetTestDirectory(&tmp_dir);
+    std::string tmp_dir = FLAGS_db;
     struct stat sb;
     int32_t res = stat(tmp_dir.data(), &sb);
     if (0 == res && (sb.st_mode & S_IFDIR)){
